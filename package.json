@@ -1,0 +1,24 @@
+{
+  "name": "stdrequest",
+  "version": "0.0.1",
+  "description": "Standard request library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scottsloane/stdrequest.git"
+  },
+  "keywords": [
+    "Std",
+    "request",
+    "http"
+  ],
+  "author": "Scott Sloane",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/scottsloane/stdrequest/issues"
+  },
+  "homepage": "https://github.com/scottsloane/stdrequest#readme"
+}
