@@ -1,20 +1,33 @@
-const Request = (() => {
-  const get = (url) => {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open("GET", url, true);
-      xhr.onload = () => {
-        if (xhr.status === 200) {
-          resolve(JSON.parse(xhr.responseText));
-        } else {
-          reject(`Error: ${xhr.status}`);
-        }
-      };
-      xhr.send();
-    });
-  };
+import { XHR } from "./xhr/index.js";
+import { Fetch } from "./fetch/index.js";
+import { Axios } from "./axios/index.js";
+import { Got } from "./got/index.js";
 
-  return {
-    get,
-  };
-})();
+export class Request {
+  constructor() {
+    this.engine = new XHR();
+  }
+
+  setEngine(engine) {
+    switch (engine) {
+      case "xhr":
+        this.engine = new XHR();
+        break;
+      case "fetch":
+        this.engine = new Fetch();
+        break;
+      case "axios":
+        this.engine = new Axios();
+        break;
+      case "got":
+        this.engine = new Got();
+        break;
+      default:
+        throw new Error("Invalid engine");
+    }
+  }
+
+  get(url) {
+    return this.engine.get(url);
+  }
+}
