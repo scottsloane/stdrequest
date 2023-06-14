@@ -1,6 +1,6 @@
 {
   "name": "stdrequest",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Standard request library",
   "main": "index.js",
   "type": "module",

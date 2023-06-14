@@ -13,6 +13,10 @@ request.setEngine("xhr");
   request.setEngine("fetch");
   res = await request.get("https://jsonplaceholder.typicode.com/todos/1");
   console.log(res);
+  await request.download(
+    "https://jsonplaceholder.typicode.com/todos/1",
+    "./test.json"
+  );
 
   request.setEngine("axios");
   res = await request.get("https://jsonplaceholder.typicode.com/todos/1");

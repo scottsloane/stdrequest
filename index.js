@@ -30,4 +30,8 @@ export class Request {
   get(url) {
     return this.engine.get(url);
   }
+
+  download(url, dest) {
+    return this.engine.download(url, dest);
+  }
 }
