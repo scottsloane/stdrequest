@@ -29,6 +29,9 @@ export class Fetch {
 
       try {
         let res = await fetch(url);
+        if (res.status !== 200) {
+          return reject(res.statusText);
+        }
         res.body.pipe(fs.createWriteStream(dest));
         return resolve();
       } catch (err) {
