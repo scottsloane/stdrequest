@@ -1,13 +1,17 @@
-import got from "got";
 import fs from "fs";
 import ensurePath from "../ensurepath/index.js";
 
 export class Got {
-  constructor() {}
+  constructor() {
+    this.got = null;
+  }
 
   get(url) {
-    return new Promise((resolve, reject) => {
-      got(url)
+    return new Promise(async (resolve, reject) => {
+      if (!this.got) {
+        this.got = (await import("got")).default;
+      }
+      this.got(url)
         .then((res) => {
           const contentType = res.headers["content-type"] || "";
           if (contentType.indexOf("application/json") > -1) {
@@ -22,13 +26,16 @@ export class Got {
 
   download(url, dest) {
     return new Promise(async (resolve, reject) => {
+      if (!this.got) {
+        this.got = (await import("got")).default;
+      }
       ensurePath(dest);
       if (fs.existsSync(dest)) {
         return resolve();
       }
 
       try {
-        const downloadStream = got.stream(url);
+        const downloadStream = this.got.stream(url);
         const fileStream = fs.createWriteStream(dest);
         downloadStream.pipe(fileStream);
 

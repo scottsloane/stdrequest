@@ -1,13 +1,17 @@
-import { XMLHttpRequest } from "xmlhttprequest";
 import fs from "fs";
 import ensurePath from "../ensurepath/index.js";
 
 export class XHR {
-  constructor() {}
+  constructor() {
+    this.XMLHttpRequest = null;
+  }
 
   get(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
+    return new Promise(async (resolve, reject) => {
+      if (!this.XMLHttpRequest) {
+        this.XMLHttpRequest = (await import("xmlhttprequest")).XMLHttpRequest;
+      }
+      const xhr = new this.XMLHttpRequest();
       xhr.open("GET", url, true);
       xhr.onload = () => {
         if (xhr.status === 200) {
@@ -22,6 +26,9 @@ export class XHR {
 
   download(url, dest) {
     return new Promise(async (resolve, reject) => {
+      if (!this.XMLHttpRequest) {
+        this.XMLHttpRequest = (await import("xmlhttprequest")).XMLHttpRequest;
+      }
       ensurePath(dest);
       if (fs.existsSync(dest)) {
         return resolve();

@@ -1,13 +1,17 @@
-import fetch from "node-fetch";
 import fs from "fs";
 import ensurePath from "../ensurepath/index.js";
 
 export class Fetch {
-  constructor() {}
+  constructor() {
+    this.fetch = null;
+  }
 
   get(url) {
-    return new Promise((resolve, reject) => {
-      fetch(url)
+    return new Promise(async (resolve, reject) => {
+      if (!this.fetch) {
+        this.fetch = (await import("node-fetch")).default;
+      }
+      this.fetch(url)
         .then((res) => {
           let contentType = res.headers.get("content-type") || "";
           if (contentType.indexOf("application/json") > -1) {
@@ -23,13 +27,16 @@ export class Fetch {
 
   download(url, dest) {
     return new Promise(async (resolve, reject) => {
+      if (!this.fetch) {
+        this.fetch = (await import("node-fetch")).default;
+      }
       ensurePath(dest);
       if (fs.existsSync(dest)) {
         return resolve();
       }
 
       try {
-        let res = await fetch(url);
+        let res = await this.fetch(url);
         if (res.status !== 200) {
           return reject(res.statusText);
         }

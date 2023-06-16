@@ -1,13 +1,20 @@
-import request from "request-promise-native";
 import fs from "fs";
 import ensurePath from "../ensurepath/index.js";
 
 export class RequestEngine {
-  constructor() {}
+  constructor() {
+    this.request = null;
+  }
 
   get(url) {
-    return new Promise((resolve, reject) => {
-      request(url)
+    return new Promise(async (resolve, reject) => {
+      console.warn(
+        "Request Engine is deprecated. Please use a different Engine instead."
+      );
+      if (!this.request) {
+        this.request = (await import("request-promise-native")).default;
+      }
+      this.request(url)
         .then((res) => {
           try {
             let o = JSON.parse(res);
@@ -22,13 +29,19 @@ export class RequestEngine {
 
   download(url, dest) {
     return new Promise(async (resolve, reject) => {
+      console.warn(
+        "Request Engine is deprecated. Please use a different Engine instead."
+      );
+      if (!this.request) {
+        this.request = (await import("request-promise-native")).default;
+      }
       ensurePath(dest);
       if (fs.existsSync(dest)) {
         return resolve();
       }
 
       try {
-        const downloadStream = request(url);
+        const downloadStream = this.request(url);
         const fileStream = fs.createWriteStream(dest);
         downloadStream.pipe(fileStream);
 

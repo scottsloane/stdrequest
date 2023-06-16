@@ -1,13 +1,17 @@
-import axios from "axios";
 import fs from "fs";
 import ensurePath from "../ensurepath/index.js";
 
 export class Axios {
-  constructor() {}
+  constructor() {
+    this.axios = null;
+  }
 
   get(url) {
-    return new Promise((resolve, reject) => {
-      axios
+    return new Promise(async (resolve, reject) => {
+      if (!this.axios) {
+        this.axios = (await import("axios")).default;
+      }
+      this.axios
         .get(url)
         .then((res) => resolve(res.data))
         .catch((err) => reject(err));
@@ -16,6 +20,9 @@ export class Axios {
 
   download(url, dest) {
     return new Promise(async (resolve, reject) => {
+      if (!this.axios) {
+        this.axios = (await import("axios")).default;
+      }
       ensurePath(dest);
       if (fs.existsSync(dest)) {
         return resolve();
