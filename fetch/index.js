@@ -9,7 +9,8 @@ export class Fetch {
     return new Promise((resolve, reject) => {
       fetch(url)
         .then((res) => {
-          if (res.headers["content-type"] === "application/json") {
+          let contentType = res.headers.get("content-type") || "";
+          if (contentType.indexOf("application/json") > -1) {
             return res.json();
           } else {
             return res.text();

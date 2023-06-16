@@ -2,6 +2,7 @@ import { XHR } from "./xhr/index.js";
 import { Fetch } from "./fetch/index.js";
 import { Axios } from "./axios/index.js";
 import { Got } from "./got/index.js";
+import { RequestEngine } from "./request/index.js";
 
 export class Request {
   constructor() {
@@ -21,6 +22,9 @@ export class Request {
         break;
       case "got":
         this.engine = new Got();
+        break;
+      case "request":
+        this.engine = new RequestEngine();
         break;
       default:
         throw new Error("Invalid engine");

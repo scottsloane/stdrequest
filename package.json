@@ -1,6 +1,6 @@
 {
   "name": "stdrequest",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Standard request library",
   "main": "index.js",
   "type": "module",
@@ -26,6 +26,7 @@
     "axios": "^1.4.0",
     "got": "^13.0.0",
     "node-fetch": "^3.3.1",
+    "request-promise-native": "^1.0.9",
     "xmlhttprequest": "^1.8.0"
   }
 }
