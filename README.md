@@ -15,7 +15,7 @@ const request = new Request();
 ```js
 request.setEngine("fetch");
 ```
-*Options:* xhr, fetch, axios, got
+*Options:* xhr, fetch, axios, got, request(depricated)
 
 **Make Request**
 ```js
