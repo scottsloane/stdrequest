@@ -1,5 +1,6 @@
 import fs from "fs";
 import ensurePath from "../ensurepath/index.js";
+import { pipeline } from "node:stream";
 
 export class Fetch {
   constructor() {
@@ -40,7 +41,7 @@ export class Fetch {
         if (res.status !== 200) {
           return reject(res.statusText);
         }
-        res.body.pipe(fs.createWriteStream(dest));
+        await streamPipeline(res.body, createWriteStream(dest));
         return resolve();
       } catch (err) {
         return reject(err);
